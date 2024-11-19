@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  password String
+  name     String
+  phone    String
+  role     Role    @default(USER)
+  orders   Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
+}
+
+model Customer {
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  phone       String
+  address     String
+  contacts    Contact[]
+  orders      Order[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Opportunity Opportunity[]
+
+  @@map("customer")
+}
+
+model Contact {
+  id         String     @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  position   String
+  customerId String
+  customer   Customer   @relation(fields: [customerId], references: [id])
+  activities Activity[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact")
+}
+
+model Activity {
+  id          String       @id @default(uuid())
+  type        ActivityType
+  description String
+  date        DateTime
+  contactId   String
+  contact     Contact      @relation(fields: [contactId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("activity")
+}
+
+model Opportunity {
+  id          String            @id @default(uuid())
+  title       String
+  description String
+  value       Float
+  status      OpportunityStatus
+  customerId  String
+  customer    Customer          @relation(fields: [customerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("opportunity")
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  title    String    @unique
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("category")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  title       String    @unique
+  description String
+  price       Float
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  orderItems OrderProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("product")
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  title      String      @unique
+  notes      String
+  payment    String
+  total      Int         @default(0)
+  status     OrderStatus
+  address    String
+  userId     String?
+  user       User?       @relation(fields: [userId], references: [id])
+  customerId String?
+  customer   Customer?   @relation(fields: [customerId], references: [id])
+
+  orderItems OrderProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order")
+}
+
+model OrderProduct {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int    @default(1)
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([orderId, productId])
+  @@map("order_product")
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+enum ActivityType {
+  CALL
+  EMAIL
+  MEETING
+  TASK
+}
+
+enum OpportunityStatus {
+  OPEN
+  WON
+  LOST
+  CLOSED
+}
+
+enum Role {
+  USER
+  ADMIN
+}

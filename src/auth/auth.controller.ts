@@ -22,15 +22,15 @@ export class AuthController {
       const result = await this.authService.login(loginDto);
 
       return response.status(200).json({
-        status: 'Success!',
-        message: 'User logged in successfully',
+        status: 'Sucesso!',
+        message: 'Usuuário logado com sucesso',
         data: result,
       });
     } catch (error) {
       console.log(error);
       return response.status(500).json({
         status: 'Error!',
-        message: 'Internal server error',
+        message: 'Houve um erro interno no servidor',
       });
     }
   }

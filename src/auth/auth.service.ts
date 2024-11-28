@@ -40,7 +40,7 @@ export class AuthService {
   private async findUserByEmail(email: string): Promise<UserEntity> {
     const user = await this.prismaService.user.findUnique({ where: { email } });
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuário não encontrado');
     }
     return user;
   }
@@ -51,7 +51,7 @@ export class AuthService {
   ): Promise<void> {
     const isPasswordValid = await bcrypt.compare(password, hashedPassword);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid password');
+      throw new UnauthorizedException('Usuário/Senha inválidos');
     }
   }
 

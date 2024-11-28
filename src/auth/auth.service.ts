@@ -25,7 +25,7 @@ export class AuthService {
 
     await this.verifyPassword(password, user.password);
 
-    return this.generateToken(user.email);
+    return this.generateToken(user.email, user.name, user.role);
   }
 
   async register(registerDto: RegisterUserDto): Promise<{ token: string }> {
@@ -34,7 +34,7 @@ export class AuthService {
 
     const user = await this.usersService.create(newUser);
 
-    return this.generateToken(user.email);
+    return this.generateToken(user.email, user.name, user.role);
   }
 
   private async findUserByEmail(email: string): Promise<UserEntity> {
@@ -72,8 +72,12 @@ export class AuthService {
     return user;
   }
 
-  private generateToken(email: string): { token: string } {
-    const token = this.jwtService.sign({ email });
-    return { token };
+  private generateToken(
+    email: string,
+    name: string,
+    role: string,
+  ): { token: string; name: string; role: string } {
+    const token = this.jwtService.sign({ email, name, role });
+    return { token, name, role };
   }
 }

@@ -1,33 +1,32 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.user.deleteMany({});
+  try {
+    await prisma.category.deleteMany({});
 
-  for (let i = 0; i < 20; i++) {
-    const hashedPassword = await bcrypt.hash(faker.internet.password(), 10);
+    const titles = new Set<string>();
 
-    await prisma.user.create({
-      data: {
-        name: faker.person.firstName(),
-        email: faker.internet.email(),
-        password: hashedPassword,
-        phone: faker.number.int().toString(),
-        role: 'USER',
-      },
-    });
+    while (titles.size < 20) {
+      titles.add(faker.commerce.department());
+    }
+
+    const createCategoryPromises = Array.from(titles).map((title) =>
+      prisma.category.create({
+        data: { title },
+      }),
+    );
+
+    await Promise.all(createCategoryPromises);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    process.exit(1);
+  } finally {
+    console.log('Seeding completed!');
+    await prisma.$disconnect();
   }
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    console.log(`Users seed completed.`);
-    await prisma.$disconnect();
-  });
+main();

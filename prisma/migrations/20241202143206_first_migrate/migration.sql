@@ -8,7 +8,7 @@ CREATE TYPE "ActivityType" AS ENUM ('CALL', 'EMAIL', 'MEETING', 'TASK');
 CREATE TYPE "OpportunityStatus" AS ENUM ('OPEN', 'WON', 'LOST', 'CLOSED');
 
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN');
+CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'MODERATOR');
 
 -- CreateTable
 CREATE TABLE "user" (
@@ -16,7 +16,7 @@ CREATE TABLE "user" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "phone" INTEGER NOT NULL,
+    "phone" TEXT NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

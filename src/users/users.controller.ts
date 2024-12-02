@@ -41,7 +41,7 @@ export class UsersController {
   ) {
     return this.usersService.findAll({
       page: page ?? 1,
-      limit: limit ?? 10,
+      limit: limit ?? 5,
       name,
       email,
     });

@@ -167,4 +167,5 @@ enum OpportunityStatus {
 enum Role {
   USER
   ADMIN
+  MODERATOR
 }

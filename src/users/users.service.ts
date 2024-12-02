@@ -24,7 +24,7 @@ export class UsersService {
     data: any[];
     meta: { total: number; page: number; limit: number };
   }> {
-    const { page = 1, limit = 10, name, email } = query;
+    const { page = 1, limit = 5, name, email } = query;
 
     const where: { name?: object; email?: object } = {};
 
@@ -48,6 +48,9 @@ export class UsersService {
           where,
           skip: (page - 1) * limit,
           take: Number(limit),
+          orderBy: {
+            name: 'asc',
+          },
         }),
       ]);
 

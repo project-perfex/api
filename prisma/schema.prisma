@@ -101,7 +101,7 @@ model Product {
   categoryId  String?
   category    Category? @relation(fields: [categoryId], references: [id])
 
-  orderItems OrderProduct[]
+  // orderItems OrderProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -136,8 +136,8 @@ model OrderProduct {
   productId String
   quantity  Int    @default(1)
 
-  order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  order Order @relation(fields: [orderId], references: [id])
+  // product Product @relation(fields: [productId], references: [id])
 
   @@unique([orderId, productId])
   @@map("order_product")

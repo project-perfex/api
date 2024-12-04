@@ -15,7 +15,6 @@ export class ProductsRepository {
         description: createProductDto.description,
         price: createProductDto.price,
         categoryId: createProductDto.categoryId,
-        orderItems: createProductDto.orderItems as any,
       },
     });
 
@@ -50,7 +49,6 @@ export class ProductsRepository {
         description: updateProductDto.description,
         price: updateProductDto.price,
         categoryId: updateProductDto.categoryId,
-        orderItems: updateProductDto.orderItems as any,
       },
     });
 

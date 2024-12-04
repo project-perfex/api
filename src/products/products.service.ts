@@ -66,7 +66,6 @@ export class ProductsService {
             title: 'asc',
           },
           include: {
-            orderItems: true,
             category: true,
           },
         }),

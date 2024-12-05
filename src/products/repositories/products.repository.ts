@@ -11,10 +11,7 @@ export class ProductsRepository {
   async create(createProductDto: CreateProductDto) {
     const product = await this.prisma.product.create({
       data: {
-        title: createProductDto.title,
-        description: createProductDto.description,
-        price: createProductDto.price,
-        categoryId: createProductDto.categoryId,
+        ...createProductDto,
       },
     });
 
@@ -45,10 +42,7 @@ export class ProductsRepository {
         id,
       },
       data: {
-        title: updateProductDto.title,
-        description: updateProductDto.description,
-        price: updateProductDto.price,
-        categoryId: updateProductDto.categoryId,
+        ...updateProductDto,
       },
     });
 

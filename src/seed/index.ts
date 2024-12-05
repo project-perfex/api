@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   try {
     await prisma.category.deleteMany({});
+    await prisma.product.deleteMany({});
 
     const titles = new Set<string>();
 
@@ -19,12 +20,25 @@ async function main() {
       }),
     );
 
-    await Promise.all(createCategoryPromises);
+    const categories = await Promise.all(createCategoryPromises);
+
+    const createProductPromises = categories.map((category) =>
+      prisma.product.create({
+        data: {
+          title: faker.commerce.productName(),
+          price: parseFloat(faker.commerce.price()),
+          description: faker.commerce.productDescription(),
+          categoryId: category.id,
+        },
+      }),
+    );
+
+    await Promise.all(createProductPromises);
+
+    console.log('Seed data created successfully');
   } catch (error) {
-    console.error('Error occurred:', error);
-    process.exit(1);
+    console.error('Error creating seed data:', error);
   } finally {
-    console.log('Seeding completed!');
     await prisma.$disconnect();
   }
 }

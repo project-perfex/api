@@ -33,12 +33,4 @@ export class CreateProductDto {
     example: 'd8c10c01-d77c-4452-be4b-5254369ebcd3',
   })
   categoryId?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Order Items',
-    example: ['42342425-4234-4234-4234-423423423423'],
-  })
-  orderItems?: string;
 }

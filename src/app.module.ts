@@ -10,6 +10,8 @@ import { ProductsModule } from './products/products.module';
 import { ProductsController } from './products/products.controller';
 import { CustomersModule } from './customers/customers.module';
 import { CustomersController } from './customers/customers.controller';
+import { OpportunitiesModule } from './opportunities/opportunities.module';
+import { OpportunitiesController } from './opportunities/opportunities.controller';
 
 @Module({
   imports: [
@@ -19,12 +21,14 @@ import { CustomersController } from './customers/customers.controller';
     CategoryModule,
     ProductsModule,
     CustomersModule,
+    OpportunitiesModule,
   ],
   controllers: [
     UsersController,
     CategoryController,
     ProductsController,
     CustomersController,
+    OpportunitiesController,
   ],
   providers: [],
 })

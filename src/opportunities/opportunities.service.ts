@@ -4,6 +4,13 @@ import { UpdateOpportunityDto } from './dto/update-opportunity.dto';
 import { OpportunitiesRepository } from './repositories/opportunities.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+enum OpportunityStatus {
+  Open = 'OPEN',
+  InProgress = 'INPROGRESS',
+  Closed = 'CLOSED',
+  OnHold = 'ONHOLD',
+}
+
 @Injectable()
 export class OpportunitiesService {
   constructor(
@@ -36,10 +43,12 @@ export class OpportunitiesService {
       };
     }
 
-    if (status) {
+    if (
+      status &&
+      Object.values(OpportunityStatus).includes(status as OpportunityStatus)
+    ) {
       where.status = {
-        contains: status,
-        mode: 'insensitive',
+        equals: status,
       };
     }
 
@@ -52,7 +61,7 @@ export class OpportunitiesService {
             },
           },
           {
-            title: {
+            name: {
               contains: customer,
               mode: 'insensitive',
             },

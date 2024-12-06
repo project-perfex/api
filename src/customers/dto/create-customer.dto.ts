@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Opportunity, Order } from '@prisma/client';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCustomerDto {
@@ -34,20 +33,4 @@ export class CreateCustomerDto {
     example: '123 Main St',
   })
   address: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Orders',
-    example: '1, 2, 3',
-  })
-  orders: Order[];
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Orders',
-    example: '1, 2, 3',
-  })
-  opportunity: Opportunity[];
 }

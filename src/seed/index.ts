@@ -7,6 +7,7 @@ async function main() {
   try {
     await prisma.category.deleteMany({});
     await prisma.product.deleteMany({});
+    await prisma.customer.deleteMany({});
 
     const titles = new Set<string>();
 
@@ -34,6 +35,19 @@ async function main() {
     );
 
     await Promise.all(createProductPromises);
+
+    const createCustomerPromises = Array.from({ length: 20 }).map(() =>
+      prisma.customer.create({
+        data: {
+          name: faker.name.fullName(),
+          email: faker.internet.email(),
+          phone: faker.phone.number(),
+          address: faker.address.streetAddress(),
+        },
+      }),
+    );
+
+    await Promise.all(createCustomerPromises);
 
     console.log('Seed data created successfully');
   } catch (error) {

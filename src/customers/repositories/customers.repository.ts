@@ -11,9 +11,6 @@ export class CustomersRepository {
     const customer = await this.prisma.customer.create({
       data: {
         ...createCustomerDto,
-        orders: {
-          create: createCustomerDto.orders,
-        },
       },
     });
 
@@ -45,9 +42,6 @@ export class CustomersRepository {
       },
       data: {
         ...updateCustomerDto,
-        orders: {
-          create: updateCustomerDto.orders,
-        },
       },
     });
 

@@ -42,7 +42,7 @@ export class ProductsController {
   ) {
     return this.productsService.findAll({
       page: page ?? 1,
-      limit: limit ?? 5,
+      limit: limit ?? 10,
       title,
       category,
     });

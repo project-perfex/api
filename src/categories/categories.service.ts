@@ -23,7 +23,7 @@ export class CategoryService {
     data: any[];
     meta: { total: number; page: number; limit: number };
   }> {
-    const { page = 1, limit = 5, title } = query;
+    const { page = 1, limit = 10, title } = query;
 
     const where: { title?: object } = {};
 

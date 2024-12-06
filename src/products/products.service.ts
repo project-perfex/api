@@ -26,7 +26,7 @@ export class ProductsService {
     data: any[];
     meta: { total: number; page: number; limit: number };
   }> {
-    const { page = 1, limit = 5, title, category } = query;
+    const { page = 1, limit = 10, title, category } = query;
 
     const where: { title?: object; category?: object } = {};
 

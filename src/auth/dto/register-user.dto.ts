@@ -8,7 +8,7 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Email of the user',
-    example: 'janedoe@email.com',
+    example: 'geraldobl58@gmail.com',
   })
   email: string;
 
@@ -41,7 +41,7 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Role',
-    example: 'USER',
+    example: 'ADMIN',
   })
   role: Role = Role.USER;
 }

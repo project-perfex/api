@@ -40,7 +40,7 @@ model Opportunity {
   id          String            @id @default(uuid())
   title       String
   description String
-  value       Float
+  price       Float
   status      OpportunityStatus
   customerId  String
   customer    Customer          @relation(fields: [customerId], references: [id])
@@ -122,9 +122,9 @@ enum OrderStatus {
 
 enum OpportunityStatus {
   OPEN
-  WON
-  LOST
+  INPROGRESS
   CLOSED
+  ONHOLD
 }
 
 enum Role {

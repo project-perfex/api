@@ -28,43 +28,12 @@ model Customer {
   email       String        @unique
   phone       String
   address     String
-  contacts    Contact[]
   orders      Order[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   Opportunity Opportunity[]
 
   @@map("customer")
-}
-
-model Contact {
-  id         String     @id @default(uuid())
-  name       String
-  email      String
-  phone      String
-  position   String
-  customerId String
-  customer   Customer   @relation(fields: [customerId], references: [id])
-  activities Activity[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("contact")
-}
-
-model Activity {
-  id          String       @id @default(uuid())
-  type        ActivityType
-  description String
-  date        DateTime
-  contactId   String
-  contact     Contact      @relation(fields: [contactId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("activity")
 }
 
 model Opportunity {
@@ -101,7 +70,7 @@ model Product {
   categoryId  String?
   category    Category? @relation(fields: [categoryId], references: [id])
 
-  // orderItems OrderProduct[]
+  OrderProduct OrderProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -137,7 +106,8 @@ model OrderProduct {
   quantity  Int    @default(1)
 
   order Order @relation(fields: [orderId], references: [id])
-  // product Product @relation(fields: [productId], references: [id])
+
+  product Product @relation(fields: [productId], references: [id])
 
   @@unique([orderId, productId])
   @@map("order_product")
@@ -148,13 +118,6 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELED
-}
-
-enum ActivityType {
-  CALL
-  EMAIL
-  MEETING
-  TASK
 }
 
 enum OpportunityStatus {

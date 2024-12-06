@@ -3,28 +3,28 @@ import {
   Get,
   Post,
   Body,
+  Put,
   Param,
   Delete,
-  Put,
-  Query,
   UseGuards,
+  Query,
 } from '@nestjs/common';
+import { CustomersService } from './customers.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 
-@ApiTags('Users')
+@ApiTags('Customers')
 @ApiBearerAuth('access-token')
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@Controller('customers')
+export class CustomersController {
+  constructor(private readonly customersService: CustomersService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createCustomerDto: CreateCustomerDto) {
+    return this.customersService.create(createCustomerDto);
   }
 
   @Get()
@@ -39,7 +39,7 @@ export class UsersController {
     @Query('name') name?: string,
     @Query('email') email?: string,
   ) {
-    return this.usersService.findAll({
+    return this.customersService.findAll({
       page: page ?? 1,
       limit: limit ?? 10,
       name,
@@ -50,18 +50,21 @@ export class UsersController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+    return this.customersService.findOne(id);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateCustomerDto: UpdateCustomerDto,
+  ) {
+    return this.customersService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+    return this.customersService.remove(id);
   }
 }

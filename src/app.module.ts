@@ -8,6 +8,8 @@ import { CategoryModule } from './categories/categories.module';
 import { CategoryController } from './categories/categories.controller';
 import { ProductsModule } from './products/products.module';
 import { ProductsController } from './products/products.controller';
+import { CustomersModule } from './customers/customers.module';
+import { CustomersController } from './customers/customers.controller';
 
 @Module({
   imports: [
@@ -16,8 +18,14 @@ import { ProductsController } from './products/products.controller';
     AuthModule,
     CategoryModule,
     ProductsModule,
+    CustomersModule,
   ],
-  controllers: [UsersController, CategoryController, ProductsController],
+  controllers: [
+    UsersController,
+    CategoryController,
+    ProductsController,
+    CustomersController,
+  ],
   providers: [],
 })
 export class AppModule {}

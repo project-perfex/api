@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderStatus } from '@prisma/client';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateOrderDto {
   @IsString()
@@ -26,14 +26,6 @@ export class CreateOrderDto {
     example: 'Credit Card',
   })
   payment: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  @ApiProperty({
-    description: 'Total',
-    example: 5000,
-  })
-  total: number;
 
   @IsString()
   @IsNotEmpty()

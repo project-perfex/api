@@ -14,6 +14,8 @@ import { OpportunitiesModule } from './opportunities/opportunities.module';
 import { OpportunitiesController } from './opportunities/opportunities.controller';
 import { OrdersModule } from './orders/orders.module';
 import { OrdersController } from './orders/orders.controller';
+import { OrderProductModule } from './order-product/order-product.module';
+import { OrderProductController } from './order-product/order-product.controller';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { OrdersController } from './orders/orders.controller';
     CustomersModule,
     OpportunitiesModule,
     OrdersModule,
+    OrderProductModule,
   ],
   controllers: [
     UsersController,
@@ -33,6 +36,7 @@ import { OrdersController } from './orders/orders.controller';
     CustomersController,
     OpportunitiesController,
     OrdersController,
+    OrderProductController,
   ],
   providers: [],
 })

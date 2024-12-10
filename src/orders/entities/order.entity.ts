@@ -5,7 +5,6 @@ export class OrderEntity implements Order {
   title: string;
   notes: string;
   payment: string;
-  total: number;
   status: OrderStatus;
   address: string;
   userId: string;

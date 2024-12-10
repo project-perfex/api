@@ -1,4 +1,6 @@
 import {
+  Customer,
+  OrderStatus,
   PrismaClient,
   OpportunityStatus as PrismaOpportunityStatus,
 } from '@prisma/client';
@@ -18,6 +20,8 @@ async function deleteExistingData() {
   await prisma.product.deleteMany({});
   await prisma.customer.deleteMany({});
   await prisma.opportunity.deleteMany({});
+  await prisma.user.deleteMany({});
+  await prisma.order.deleteMany({});
 }
 
 function generateUniqueTitles(count: number): Set<string> {
@@ -65,12 +69,37 @@ async function createCustomers(count: number) {
   return await Promise.all(createCustomerPromises);
 }
 
+async function createUsers(count: number) {
+  const createUserPromises = Array.from({ length: count }).map(() =>
+    prisma.user.create({
+      data: {
+        name: faker.internet.userName(),
+        phone: faker.phone.number(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+      },
+    }),
+  );
+  return await Promise.all(createUserPromises);
+}
+
 function getRandomStatus(): OpportunityStatus {
   const statuses = [
     OpportunityStatus.Open,
     OpportunityStatus.InProgress,
     OpportunityStatus.Closed,
     OpportunityStatus.OnHold,
+  ];
+  const randomIndex = Math.floor(Math.random() * statuses.length);
+  return statuses[randomIndex];
+}
+
+function getOrderRandomStatus(): OrderStatus {
+  const statuses = [
+    OrderStatus.PENDING,
+    OrderStatus.SHIPPED,
+    OrderStatus.DELIVERED,
+    OrderStatus.CANCELED,
   ];
   const randomIndex = Math.floor(Math.random() * statuses.length);
   return statuses[randomIndex];
@@ -91,6 +120,24 @@ async function createOpportunities(customers: any[]) {
   await Promise.all(createOpportunityPromises);
 }
 
+async function createOrders(users: any[], customers: Customer[]) {
+  const createOrderPromises = users.map((user) => {
+    const customer = customers[Math.floor(Math.random() * customers.length)];
+    return prisma.order.create({
+      data: {
+        title: faker.commerce.productName(),
+        notes: faker.lorem.sentence(),
+        payment: faker.finance.transactionType(),
+        status: getOrderRandomStatus() as unknown as OrderStatus,
+        address: faker.address.streetAddress(),
+        userId: user.id,
+        customerId: customer.id,
+      },
+    });
+  });
+  await Promise.all(createOrderPromises);
+}
+
 async function main() {
   try {
     await deleteExistingData();
@@ -100,7 +147,9 @@ async function main() {
     await createProducts(categories);
 
     const customers = await createCustomers(20);
+    const users = await createUsers(10);
     await createOpportunities(customers);
+    await createOrders(users, customers);
 
     console.log('Seed data created successfully');
   } catch (error) {

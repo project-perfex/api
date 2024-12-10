@@ -25,7 +25,7 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @ApiProperty({
     description: 'Name',
-    example: 'Jane Doe',
+    example: 'Geraldo Luiz',
   })
   name: string;
 
